@@ -1,0 +1,40 @@
+.App {
+  height: 800px;
+  border: 10px solid darkblue;
+  margin: 100px;
+
+}
+@keyframes App-logo-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+.tic-tac-toy {
+  width: 600px;
+  height: 600px;
+  margin: 100px auto;
+}
+table, tr, td {
+  border: 1px solid #ddd;
+  text-align: center;
+}
+table {
+  border-collapse: collapse;
+  width: 100%;
+  height: 100%;
+  margin: 10px;
+}
+
+td, tr {
+  padding: 15px;
+  position: relative;
+}
+td {
+  width: 160px;
+  height: 160px;
+}
+img {
+  position: center;
+  max-width: 100%;
+  max-height: 100%;
+
+}
