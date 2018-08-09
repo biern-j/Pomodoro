@@ -1,1 +1,1 @@
-//TODO states
+//TODO state for memory

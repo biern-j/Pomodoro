@@ -1,13 +1,12 @@
 import React from 'react';
 import './App.css';
-import logo from './logo.svg';
 
-import TocTacToi from "./Components/Toc-Tac-Toe";
+import Watch from "./Components/Watch";
 
 
 const App = () =>
         <div>
-          <TocTacToi />
+          <Watch/>
         </div>;
 
 
