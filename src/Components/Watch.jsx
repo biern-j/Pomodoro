@@ -4,9 +4,7 @@ class Watch extends React.Component {
     constructor(props) {
         super(props);
         this.state = { time: new Date() };
-        //this.tick = this.tick.bind(this);
     }
-
 
     componentDidMount() {
        this.timerID = setInterval(() => this.tick(), 1000)
