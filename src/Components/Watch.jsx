@@ -4,7 +4,7 @@ import Timer from "./Timer";
 class Watch extends React.Component {
     constructor(props) {
         super(props);
-       this.state = { time: new Date() };
+       this.state = { time: new Date()};
     }
 
     componentDidMount() {
@@ -12,11 +12,13 @@ class Watch extends React.Component {
     }
     componentWillUnmount() {
         clearInterval(this.watchID);
+
     }
 
     tick() {
         this.setState({ time: new Date() })
     }
+
 
     render() {
        return(
@@ -24,10 +26,11 @@ class Watch extends React.Component {
                <div>
                    Now is: {this.state.time.toLocaleTimeString()}
                    </div>
-               <div>
-                   <Timer timePeriod={10000} description={'Pomodoro 10s'}/>
+
                    <Timer timePeriod={5000} description={'Pomodoro 5s'}/>
-               </div>
+
+                   <Timer timePeriod={4000} description={'Pomodoro 4s'}/>
+
            </div>
        );
     }

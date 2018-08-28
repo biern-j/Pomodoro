@@ -3,23 +3,25 @@ import React from 'react'
 class Timer extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {timer: ''};
-    this.setTimer = this.setTimer.bind(this);
+    this.state = {counter: ""};
   }
-    setTimer(e, pomodoroTime ) {
-    e.preventDefault();
-    setTimeout(function(){ alert("to już")}, pomodoroTime);
-    };
 
-    componentDidMount() {
-        this.timerID = setInterval(() => this.timer, 1000);
-    }
-    componentWillUnmount() {
-        clearInterval(this.timerID);
-    }
-    timer(timer) {
-        this.setState({timer});
-    }
+  timer(counter){
+      this.setState({counter});
+      this.timerID =
+          setInterval(() => {
+          let value = this.state.counter;
+          console.log('value', value);
+          value = value - 1000;
+          this.setState({counter: value});
+          if (value === 0) {
+              clearInterval(this.timerID);
+              this.setState({counter: "To już"})
+          }
+
+          }, 1000);
+  }
+
 
 
   render() {
@@ -30,23 +32,18 @@ class Timer extends React.Component {
       color: "white", /* White text */
       padding: "10px 24px", /* Some padding */
       cursor: "pointer", /* Pointer/hand icon */
-      float: "left" /* Float the buttons side by side */
-
+      float: "left", /* Float the buttons side by side */
     };
     return (
         <div>
-            <button style={style} onClick={(e) => {
-                this.setTimer(e, pomodoroTime);
+            <button style={style} onClick={() => {
                 this.timer(pomodoroTime);
-            }
-
-            }
+            }}
             >{this.props.description}
             </button>
-            <div>
-                YOU HAVE: {this.state.timer}
-            </div>
-      </div>
+             <span> YOU HAVE: {this.state.counter}</span>
+        </div>
+
     )
   }
 
