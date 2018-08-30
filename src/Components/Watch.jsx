@@ -29,9 +29,13 @@ class Watch extends React.Component {
 
     componentDidMount() {
        this.watchID = setInterval(() => this.tick(), 1000);
+        this.pomodoroTimer = setInterval(() =>
+            this.timer(this.state.counter), 1000);
     }
     componentWillUnmount() {
         clearInterval(this.watchID);
+        clearInterval(this.pomodoroTimer)
+
 
     }
 
@@ -39,21 +43,16 @@ class Watch extends React.Component {
         this.setState({ time: new Date() })
     }
 
-    timer(e, counter){
-        e.preventDefault();
-        this.setState({counter});
-        this.timerID =
-            setInterval(() => {
-                let value = this.state.counter;
-                console.log('value', value);
-                value = value - 1000;
-                this.setState({counter: value});
-                if (value === 0) {
-                    clearInterval(this.timerID);
-                    this.setState({counter: "To już"})
-                }
 
-            }, 1000);
+    timer(counter){
+        this.setState({counter});
+        let value = this.state.counter;
+        console.log('value', value);
+        value = value - 1000;
+        this.setState({counter: value});
+        if (value === 0) {
+            this.setState({counter: "To już"})
+        }
     }
 
 
@@ -64,7 +63,9 @@ class Watch extends React.Component {
                 key={item.id}
                 timePeriod={item.timer}
                 description={item.description}
-                onClick={(e, counter) => this.timer(e, counter)}
+                onClick={(e, counter) => {
+                    this.setState({counter});
+                }}
             />
 
         );
