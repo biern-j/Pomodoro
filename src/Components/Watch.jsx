@@ -24,11 +24,13 @@ const pomodoros = [
 class Watch extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {time: new Date(), counter: ""};
+        this.state = {
+            time: new Date(),
+            counter: ""};
         this.setTimer = this.setTimer.bind(this);
         this.intervalID = null;
     }
-    
+
     setTimer(counter) {
         if(this.intervalID !== null) {
             clearInterval(this.intervalID);
@@ -38,7 +40,8 @@ class Watch extends React.Component {
             let value = this.state.counter;
             value = value - 1000;
             this.setState({counter: value});
-            if (value === 0) {
+            console.log("value", value);
+            if (value <= 0) {
                 this.setState({counter: "To już"});
                 clearInterval(this.intervalID);
             }
@@ -56,11 +59,20 @@ class Watch extends React.Component {
     }
 
     tick() {
-        this.setState({ time: new Date() })
+        this.setState({ time: new Date()})
     }
 
     render() {
+        const pomodoroWatchStyle = {
+            position: "absolute",
+            left: "50%",
+            top: "50%",
+            display: "inline"
+        };
+        const pomodoroDataStyle = {
+            border: "solid black 1px"
 
+        };
         const pomodoroData = pomodoros.map( item =>
             <Timer
                 key={item.id}
@@ -70,16 +82,13 @@ class Watch extends React.Component {
                     this.setTimer(counter);
                 }}
             />
-
         );
        return(
-           <div>
-               <div>
-                   Now is: {this.state.time.toLocaleTimeString()}
-                   </div>
+           <div style={pomodoroDataStyle}>
+               Now is: {this.state.time.toLocaleTimeString()}
                {pomodoroData}
-               <div>
-                   YOU HAVE: {this.state.counter}
+               <div style={pomodoroWatchStyle}>
+                   YOU HAVE: <span>{this.state.counter}</span>
                </div>
            </div>
        );
