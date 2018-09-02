@@ -25,36 +25,39 @@ class Watch extends React.Component {
     constructor(props) {
         super(props);
         this.state = {time: new Date(), counter: ""};
+        this.setTimer = this.setTimer.bind(this);
+        this.intervalID = null;
+    }
+    
+    setTimer(counter) {
+        if(this.intervalID !== null) {
+            clearInterval(this.intervalID);
+        }
+        this.setState({counter});
+        this.intervalID = setInterval(() =>  {
+            let value = this.state.counter;
+            value = value - 1000;
+            this.setState({counter: value});
+            if (value === 0) {
+                this.setState({counter: "To już"});
+                clearInterval(this.intervalID);
+            }
+        }, 1000)
     }
 
     componentDidMount() {
-       this.watchID = setInterval(() => this.tick(), 1000);
-        this.pomodoroTimer = setInterval(() =>
-            this.timer(this.state.counter), 1000);
+       this.watchID = setInterval(() => {
+           this.tick();
+           }, 1000);
     }
+
     componentWillUnmount() {
         clearInterval(this.watchID);
-        clearInterval(this.pomodoroTimer)
-
-
     }
 
     tick() {
         this.setState({ time: new Date() })
     }
-
-
-    timer(counter){
-        this.setState({counter});
-        let value = this.state.counter;
-        console.log('value', value);
-        value = value - 1000;
-        this.setState({counter: value});
-        if (value === 0) {
-            this.setState({counter: "To już"})
-        }
-    }
-
 
     render() {
 
@@ -64,7 +67,7 @@ class Watch extends React.Component {
                 timePeriod={item.timer}
                 description={item.description}
                 onClick={(e, counter) => {
-                    this.setState({counter});
+                    this.setTimer(counter);
                 }}
             />
 
