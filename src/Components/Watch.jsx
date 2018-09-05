@@ -16,6 +16,11 @@ const pomodoros = [
         timer: 15000,
         description: "Pomodoro 15s",
         id: 3
+    },
+    {
+        timer: 1000,
+        description: "Reset",
+        id: 4
     }
     ];
 
