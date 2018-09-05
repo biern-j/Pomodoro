@@ -4,7 +4,6 @@ const style = {
     backgroundColor: "#4CAF50", /* Green background */
     border: "1px solid green", /* Green border */
     color: "white", /* White text */
-    margin: "20% 2%",
     padding: "10px 24px", /* Some padding */
     cursor: "pointer", /* Pointer/hand icon */
     float: "left" /* Float the buttons side by side */

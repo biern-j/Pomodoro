@@ -56,6 +56,7 @@ class Watch extends React.Component {
 
     componentWillUnmount() {
         clearInterval(this.watchID);
+        clearInterval(this.intervalID);
     }
 
     tick() {
@@ -63,31 +64,42 @@ class Watch extends React.Component {
     }
 
     render() {
-        const pomodoroWatchStyle = {
-            position: "absolute",
-            left: "50%",
-            top: "50%",
-            display: "inline"
-        };
-        const pomodoroDataStyle = {
-            border: "solid black 1px"
+        const timerStyle = {
+            display: "inline",
+            border: "solid black 2px",
 
         };
+        const parentStyle = {
+            border: "solid black 1px",
+            textAlign: "center"
+        };
+        const selectorStyle = {
+            border: "solid black 10px",
+            padding: "40px",
+            margin: "40px",
+            textAlign: "center"
+        };
         const pomodoroData = pomodoros.map( item =>
+            <div key={item.id}>
             <Timer
-                key={item.id}
+
                 timePeriod={item.timer}
                 description={item.description}
                 onClick={(e, counter) => {
                     this.setTimer(counter);
                 }}
             />
+            </div>
         );
        return(
-           <div style={pomodoroDataStyle}>
+           <div style={parentStyle}>
+           <div style={timerStyle}>
                Now is: {this.state.time.toLocaleTimeString()}
+           </div>
+               <div style={selectorStyle}>
                {pomodoroData}
-               <div style={pomodoroWatchStyle}>
+               </div>
+               <div style={timerStyle}>
                    YOU HAVE: <span>{this.state.counter}</span>
                </div>
            </div>
