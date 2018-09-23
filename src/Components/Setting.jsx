@@ -1,6 +1,6 @@
 import React from 'react';
 
-import TimerNoTonClick from "./TimerNotToClick";
+import Watch from "./Watch";
 
 
 //TODO:
@@ -43,7 +43,9 @@ class Setting extends React.Component {
                     </label>
                     <input type="submit" value="Submit"/>
                 </form>
-                <TimerNoTonClick timePeriod={this.state.timer} description={this.state.description} />
+                <div>
+                    {/*<Watch/>*/}
+                </div>
             </div>
             )
         }

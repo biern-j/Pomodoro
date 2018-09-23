@@ -1,5 +1,6 @@
 import React from 'react'
 import Timer from "./Timer";
+import NewPomodoroTimer from "./NewPomodoroTimer";
 
 const pomodoros = [
     {
@@ -31,7 +32,10 @@ class Watch extends React.Component {
         super(props);
         this.state = {
             time: new Date(),
-            counter: ""};
+            counter: "",
+            pomodoroTimers: pomodoros,
+            newPomodoroTimer: ""
+        };
         this.setTimer = this.setTimer.bind(this);
         this.intervalID = null;
     }
@@ -68,6 +72,10 @@ class Watch extends React.Component {
         this.setState({ time: new Date()})
     }
 
+    onChange = (e) => {
+        console.log("value", e);
+        this.setState({newPomodoroTimer: e.target.value })};
+
     render() {
         const timerStyle = {
             display: "inline",
@@ -84,7 +92,7 @@ class Watch extends React.Component {
             margin: "40px",
             textAlign: "center"
         };
-        const pomodoroData = pomodoros.map( item =>
+        const pomodoroData = this.state.pomodoroTimers.map( item =>
             <div key={item.id}>
             <Timer
 
@@ -107,6 +115,7 @@ class Watch extends React.Component {
                <div style={timerStyle}>
                    YOU HAVE: <span>{this.state.counter}</span>
                </div>
+               <NewPomodoroTimer value={this.state.newPomodoroTimer} onChange={this.onChange}/>
            </div>
        );
     }
