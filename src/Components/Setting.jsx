@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Watch from "./Watch";
+import Timer from "./Timer";
 
 
 //TODO:
@@ -10,7 +10,7 @@ import Watch from "./Watch";
 class Setting extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { timer: "", description: "" };
+        this.state = { timer: "", description: "" , timers: []};
     }
 
     setPomodoroTimer = (e) =>{
@@ -21,10 +21,10 @@ class Setting extends React.Component {
         this.setState({ description: e.target.value });
     };
 
-    handleSubmit = () => {
-
+    handleSubmit = (e) => {
+        e.preventDefault();
+        this.setState({ timers: this.state.timers.concat(<Timer timePeriod={this.state.timer} description={this.state.description} onClick={ () => this.onClick}/>)})
     };
-
 
     render(){
         return (
@@ -35,16 +35,16 @@ class Setting extends React.Component {
                 <form onSubmit={this.handleSubmit}>
                     <label>
                         SET YOUR POMODORO TIMER:
-                        <input type="text" onChange={this.setPomodoroTimer}/>
+                        <input type="text" value={this.state.timer} onChange={this.setPomodoroTimer}/>
                     </label>
                     <label>
-                        SET PHOTO:
+                        SET DESCRIPTION:
                         <input type="text" onChange={this.setPomodoroDescription}/>
                     </label>
                     <input type="submit" value="Submit"/>
                 </form>
                 <div>
-                    {/*<Watch/>*/}
+                    {this.state.timers}
                 </div>
             </div>
             )
