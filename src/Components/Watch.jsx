@@ -1,30 +1,7 @@
 import React from 'react'
 import Timer from "./Timer";
 import NewPomodoroTimer from "./NewPomodoroTimer";
-
-const pomodoros = [
-    {
-        timer: 5000,
-        description: "Pomodoro 5s",
-        id: 1
-    },
-    {
-        timer: 10000,
-        description: "Pomodoro 10s",
-        id: 2
-    },
-    {
-        timer: 15000,
-        description: "Pomodoro 15s",
-        id: 3
-    },
-    {
-        timer: 1000,
-        description: "Reset",
-        id: 4
-    }
-    ];
-
+import pomodoros from "../pomodoroTimer";
 
 
 class Watch extends React.Component {
@@ -104,6 +81,7 @@ class Watch extends React.Component {
             />
             </div>
         );
+        const numberOfDefaultPomodoro = pomodoros.length;
        return(
            <div style={parentStyle}>
            <div style={timerStyle}>
@@ -115,7 +93,9 @@ class Watch extends React.Component {
                <div style={timerStyle}>
                    YOU HAVE: <span>{this.state.counter}</span>
                </div>
-               <NewPomodoroTimer value={this.state.newPomodoroTimer} onChange={this.onChange}/>
+               <NewPomodoroTimer numberOfDefaultPomodoro={numberOfDefaultPomodoro} value={this.state.newPomodoroTimer} onClick={(e, counter) => {
+                   this.setTimer(counter);
+               }}/>
            </div>
        );
     }
