@@ -10,8 +10,5 @@ const style = {
 };
 
 const Header = ({ onClick, headerDescription }) =>
-    <div>
-        <button style={style} onClick={() => onClick()}>{headerDescription}</button>
-    </div>;
-
+        <button style={style} onClick={() => onClick()}>{headerDescription}</button>;
  export default Header

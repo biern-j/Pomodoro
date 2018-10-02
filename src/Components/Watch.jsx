@@ -2,7 +2,18 @@ import React from 'react'
 import Timer from "./Timer";
 import NewPomodoroTimer from "./NewPomodoroTimer";
 import pomodoros from "../pomodoroTimer";
+import styled from 'styled-components';
 
+const TimerBox = styled.div`
+  border: "solid black 2px"  
+`;
+
+const SelectorBox = styled.div`
+    border: "solid black 1px"
+`;
+
+const Container = styled.div`
+`;
 
 class Watch extends React.Component {
     constructor(props) {
@@ -54,21 +65,7 @@ class Watch extends React.Component {
         this.setState({newPomodoroTimer: e.target.value })};
 
     render() {
-        const timerStyle = {
-            display: "inline",
-            border: "solid black 2px",
 
-        };
-        const parentStyle = {
-            border: "solid black 1px",
-            textAlign: "center"
-        };
-        const selectorStyle = {
-            border: "solid black 10px",
-            padding: "40px",
-            margin: "40px",
-            textAlign: "center"
-        };
         const pomodoroData = this.state.pomodoroTimers.map( item =>
             <div key={item.id}>
             <Timer
@@ -83,20 +80,24 @@ class Watch extends React.Component {
         );
         const numberOfDefaultPomodoro = pomodoros.length;
        return(
-           <div style={parentStyle}>
-           <div style={timerStyle}>
+           <Container>
+           <TimerBox>
                Now is: {this.state.time.toLocaleTimeString()}
-           </div>
-               <div style={selectorStyle}>
+           </TimerBox>
+               <SelectorBox>
                {pomodoroData}
-               </div>
-               <div style={timerStyle}>
-                   YOU HAVE: <span>{this.state.counter}</span>
-               </div>
-               <NewPomodoroTimer numberOfDefaultPomodoro={numberOfDefaultPomodoro} value={this.state.newPomodoroTimer} onClick={(e, counter) => {
+               </SelectorBox>
+               <TimerBox>
+                   YOU HAVE: {this.state.counter}
+               </TimerBox>
+               <NewPomodoroTimer
+                   numberOfDefaultPomodoro={numberOfDefaultPomodoro}
+                   value={this.state.newPomodoroTimer}
+                   onClick={(e, counter) => {
                    this.setTimer(counter);
-               }}/>
-           </div>
+               }}
+               />
+           </Container>
        );
     }
 }
