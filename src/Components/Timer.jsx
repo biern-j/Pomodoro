@@ -1,13 +1,19 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
+import styled from 'styled-components';
+
+const TimerSelector = styled(Button)`
+    color: black; 
+    background: green; 
+`;
 
 const Timer = ({timePeriod, description, onClick}) =>
 
-    <Button
+    <TimerSelector
         onClick={(e) => onClick(e, timePeriod)}
     >
         {description}
-    </Button>;
+    </TimerSelector>;
 
 
 export default Timer

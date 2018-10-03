@@ -3,6 +3,7 @@ import Timer from "./Timer";
 import NewPomodoroTimer from "./NewPomodoroTimer";
 import pomodoros from "../pomodoroTimer";
 import styled from 'styled-components';
+import Typography from '@material-ui/core/Typography';
 
 const TimerBox = styled.div`
   border: "solid black 2px"  
@@ -88,7 +89,9 @@ class Watch extends React.Component {
                {pomodoroData}
                </SelectorBox>
                <TimerBox>
+                   <Typography>
                    YOU HAVE: {this.state.counter}
+                   </Typography>
                </TimerBox>
                <NewPomodoroTimer
                    numberOfDefaultPomodoro={numberOfDefaultPomodoro}

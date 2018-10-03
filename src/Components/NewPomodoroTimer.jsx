@@ -1,6 +1,6 @@
 import React from 'react';
 import FormLabel from '@material-ui/core/FormLabel';
-import FormControl from '@material-ui/core/FormControl';
+import Typography from '@material-ui/core/Typography';
 import Input from '@material-ui/core/Input';
 
 
@@ -31,19 +31,19 @@ class NewPomodoroTimer extends React.Component {
         return(
             <div>
             <form onSubmit={this.handleSubmit}>
-                <label>
+                <FormLabel>
                     NEW TIMER
                 <Input type="text" value={this.state.timer} onChange={this.handleChangeTimer} />
-                    </label>
-                <label>
+                    </FormLabel>
+                <FormLabel>
                     NEW TIMER DESCRIPTION
                 <Input type="text" value={this.state.description} onChange={this.handleChangeDescription} />
-                </label>
+                </FormLabel>
                 <Input type="submit" value="Submit" />
             </form>
-                <div>
+                <Typography>
                     {this.state.timers}
-                </div>
+                </Typography>
             </div>
         );
     }
