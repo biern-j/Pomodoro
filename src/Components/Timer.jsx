@@ -1,12 +1,13 @@
-import React from 'react'
+import React from 'react';
+import Button from '@material-ui/core/Button';
 
 const Timer = ({timePeriod, description, onClick}) =>
 
-    <button
+    <Button
         onClick={(e) => onClick(e, timePeriod)}
     >
         {description}
-    </button>;
+    </Button>;
 
 
 export default Timer
