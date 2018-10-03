@@ -1,5 +1,6 @@
 import React from 'react'
+import Button from '@material-ui/core/Button';
 
 const Header = ({ onClick, headerDescription }) =>
-        <button onClick={() => onClick()}>{headerDescription}</button>;
+        <Button onClick={() => onClick()}>{headerDescription}</Button>;
  export default Header
