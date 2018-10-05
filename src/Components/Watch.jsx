@@ -23,13 +23,15 @@ class Watch extends React.Component {
             time: new Date(),
             counter: "",
             pomodoroTimers: pomodoros,
-            newPomodoroTimer: ""
+            timerValue: 0,
+            timerDescription: ""
         };
         this.setTimer = this.setTimer.bind(this);
         this.intervalID = null;
     }
 
     setTimer(counter) {
+        this.setState({ pomodoroTimers: this.state.pomodoroTimers.concat([])});
         if(this.intervalID !== null) {
             clearInterval(this.intervalID);
         }
@@ -61,9 +63,13 @@ class Watch extends React.Component {
         this.setState({ time: new Date()})
     }
 
-    onChange = (e) => {
-        console.log("value", e);
-        this.setState({newPomodoroTimer: e.target.value })};
+    handleNewTimer = (item) => {
+        this.setState({ timerValue: item });
+    };
+
+    handleNewDescription = (item) => {
+      this.setState({ timerDescription: item })
+    };
 
     render() {
 
@@ -79,7 +85,6 @@ class Watch extends React.Component {
             />
             </div>
         );
-        const numberOfDefaultPomodoro = pomodoros.length;
        return(
            <Container>
            <TimerBox>
@@ -94,8 +99,8 @@ class Watch extends React.Component {
                    </Typography>
                </TimerBox>
                <NewPomodoroTimer
-                   numberOfDefaultPomodoro={numberOfDefaultPomodoro}
-                   value={this.state.newPomodoroTimer}
+                   handleNewTimer={this.handleNewTimer}
+                   handleNewDescription={this.handleNewDescription}
                    onClick={(e, counter) => {
                    this.setTimer(counter);
                }}

@@ -33,11 +33,18 @@ class NewPomodoroTimer extends React.Component {
             <form onSubmit={this.handleSubmit}>
                 <FormLabel>
                     NEW TIMER
-                <Input type="text" value={this.state.timer} onChange={this.handleChangeTimer} />
+                <Input type="text" value={this.state.timer} onChange={(e) => {
+                    this.props.handleNewTimer(e.target.value);
+                    this.handleChangeTimer(e);
+                }
+                } />
                     </FormLabel>
                 <FormLabel>
                     NEW TIMER DESCRIPTION
-                <Input type="text" value={this.state.description} onChange={this.handleChangeDescription} />
+                <Input type="text" value={this.state.description} onChange={ (e) => {
+                    this.props.handleNewDescription(e.target.value);
+                    this.handleChangeDescription(e);
+                }} />
                 </FormLabel>
                 <Input type="submit" value="Submit" />
             </form>
