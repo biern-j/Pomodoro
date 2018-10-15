@@ -71,6 +71,13 @@ class Watch extends React.Component {
       this.setState({ timerDescription: item })
     };
 
+    handleSubmition = (item) => {
+        this.setState({ pomodoroTimers: [...this.state.pomodoroTimers, { "timer": this.state.timerValue,
+                "description": this.state.timerDescription,
+                "id": Math.random()}]});
+        return item;
+    };
+
     render() {
 
         const pomodoroData = this.state.pomodoroTimers.map( item =>
@@ -99,6 +106,7 @@ class Watch extends React.Component {
                    </Typography>
                </TimerBox>
                <NewPomodoroTimer
+                   onSubmit={this.handleSubmition}
                    handleNewTimer={this.handleNewTimer}
                    handleNewDescription={this.handleNewDescription}
                    onClick={(e, counter) => {

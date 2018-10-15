@@ -30,7 +30,7 @@ class NewPomodoroTimer extends React.Component {
     render() {
         return(
             <div>
-            <form onSubmit={this.handleSubmit}>
+            <form onSubmit={(e) => this.props.onSubmit(this.handleSubmit(e))}>
                 <FormLabel>
                     NEW TIMER
                 <Input type="text" value={this.state.timer} onChange={(e) => {
