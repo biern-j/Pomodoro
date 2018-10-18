@@ -48,9 +48,6 @@ class NewPomodoroTimer extends React.Component {
                 </FormLabel>
                 <Input type="submit" value="Submit" />
             </form>
-                <Typography>
-                    {this.state.timers}
-                </Typography>
             </div>
         );
     }

@@ -28,6 +28,13 @@ class Watch extends React.Component {
         };
         this.setTimer = this.setTimer.bind(this);
         this.intervalID = null;
+        this.handleTimerRemover = this.handleTimerRemover.bind(this);
+    }
+
+    handleTimerRemover(id) {
+        this.setState({ pomodoroTimers: this.state.pomodoroTimers.filter(item => id !== item.id)});
+        console.log("id", id, this.state.pomodoroTimers.filter(item => id !== item.id));
+
     }
 
     setTimer(counter) {
@@ -83,9 +90,10 @@ class Watch extends React.Component {
         const pomodoroData = this.state.pomodoroTimers.map( item =>
             <div key={item.id}>
             <Timer
-
+                onClickTimerRemover={this.handleTimerRemover}
                 timePeriod={item.timer}
                 description={item.description}
+                id={item.id}
                 onClick={(e, counter) => {
                     this.setTimer(counter);
                 }}
@@ -109,9 +117,6 @@ class Watch extends React.Component {
                    onSubmit={this.handleSubmition}
                    handleNewTimer={this.handleNewTimer}
                    handleNewDescription={this.handleNewDescription}
-                   onClick={(e, counter) => {
-                   this.setTimer(counter);
-               }}
                />
            </Container>
        );
