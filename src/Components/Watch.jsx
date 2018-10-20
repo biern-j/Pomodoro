@@ -4,6 +4,7 @@ import NewPomodoroTimer from "./NewPomodoroTimer";
 import pomodoros from "../pomodoroTimer";
 import styled from 'styled-components';
 import Typography from '@material-ui/core/Typography';
+import ResetTimer from "./Reset";
 
 const TimerBox = styled.div`
   border: "solid black 2px"  
@@ -23,12 +24,21 @@ class Watch extends React.Component {
             time: new Date(),
             counter: "",
             pomodoroTimers: pomodoros,
+            reset: false,
             timerValue: 0,
-            timerDescription: ""
         };
         this.setTimer = this.setTimer.bind(this);
         this.intervalID = null;
         this.handleTimerRemover = this.handleTimerRemover.bind(this);
+        this.handleReset = this.handleReset.bind(this);
+    }
+
+    handleReset(reset) {
+        this.setState({ reset });
+        if(this.state.reset) {
+            clearInterval(this.intervalID);
+            this.setState({ counter: "POMODORO WAS RESERTE" });
+        }
     }
 
     handleTimerRemover(id) {
@@ -74,13 +84,8 @@ class Watch extends React.Component {
         this.setState({ timerValue: item });
     };
 
-    handleNewDescription = (item) => {
-      this.setState({ timerDescription: item })
-    };
-
     handleSubmition = (item) => {
         this.setState({ pomodoroTimers: [...this.state.pomodoroTimers, { "timer": this.state.timerValue,
-                "description": this.state.timerDescription,
                 "id": Math.random()}]});
         return item;
     };
@@ -92,7 +97,6 @@ class Watch extends React.Component {
             <Timer
                 onClickTimerRemover={this.handleTimerRemover}
                 timePeriod={item.timer}
-                description={item.description}
                 id={item.id}
                 onClick={(e, counter) => {
                     this.setTimer(counter);
@@ -112,11 +116,11 @@ class Watch extends React.Component {
                    <Typography>
                    YOU HAVE: {this.state.counter}
                    </Typography>
+                   <ResetTimer onClick={this.handleReset}/>
                </TimerBox>
                <NewPomodoroTimer
                    onSubmit={this.handleSubmition}
                    handleNewTimer={this.handleNewTimer}
-                   handleNewDescription={this.handleNewDescription}
                />
            </Container>
        );

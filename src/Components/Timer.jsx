@@ -13,12 +13,12 @@ const TimerRemover = styled(Button)`
     background: black;
 `;
 
-const Timer = ({ id, timePeriod, description, onClick, onClickTimerRemover}) =>
+const Timer = ({ id, timePeriod, onClick, onClickTimerRemover}) =>
 <Container>
     <TimerSelector
-        onClick={(e) => onClick(e, timePeriod)}
+        onClick={(e) => onClick(e, timePeriod * 1000)}
     >
-        {description}
+        {timePeriod + ": s"}
     </TimerSelector>
     <TimerRemover onClick={() => onClickTimerRemover(id)}>Remove</TimerRemover>
 </Container>;
