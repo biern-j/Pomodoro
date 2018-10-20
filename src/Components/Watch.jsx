@@ -5,6 +5,7 @@ import pomodoros from "../pomodoroTimer";
 import styled from 'styled-components';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import ResetTimer from "./Reset";
 
@@ -33,8 +34,7 @@ class Watch extends React.Component {
             pomodoroTimers: pomodoros,
             reset: false,
             timerValue: 0,
-            settingPanel: false,
-            settingPanelDescription: "Manage"
+            settingPanel: false
         };
         this.setTimer = this.setTimer.bind(this);
         this.intervalID = null;
@@ -46,9 +46,7 @@ class Watch extends React.Component {
     handleSettingPanel(e) {
         e.preventDefault();
         this.setState({
-            settingPanel: !this.state.settingPanel,
-            settingPanelDescription: this.state.settingPanel ? "Manage" : "View"
-        });
+            settingPanel: !this.state.settingPanel});
     }
 
     handleReset(reset) {
@@ -134,7 +132,7 @@ class Watch extends React.Component {
                </TimerBox>
                <SettingPanel onClick={(e) => {
                    this.handleSettingPanel(e);
-               }}>{this.state.settingPanelDescription}</SettingPanel>
+               }}>{this.state.settingPanel ? <FontAwesomeIcon icon="edit" />: <FontAwesomeIcon icon="edit" inverse={true} />}</SettingPanel>
                <SelectorBox>
                {pomodoroData}
                </SelectorBox>
