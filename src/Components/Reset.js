@@ -9,7 +9,7 @@ const Reset = styled(Button)`
 
 const ResetTimer = ({ onClick }) =>
     <Reset onClick={() => onClick(true) }>
-        RESET
+        Cancel
     </Reset>;
 
 export default ResetTimer;

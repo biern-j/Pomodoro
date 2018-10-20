@@ -34,7 +34,7 @@ class Watch extends React.Component {
             reset: false,
             timerValue: 0,
             settingPanel: false,
-            settingPanelDescription: "SETTING PANEL"
+            settingPanelDescription: "Manage"
         };
         this.setTimer = this.setTimer.bind(this);
         this.intervalID = null;
@@ -47,7 +47,7 @@ class Watch extends React.Component {
         e.preventDefault();
         this.setState({
             settingPanel: !this.state.settingPanel,
-            settingPanelDescription: this.state.settingPanel ? "SETTING PANEL" : "BACK"
+            settingPanelDescription: this.state.settingPanel ? "Manage" : "View"
         });
     }
 
@@ -55,7 +55,7 @@ class Watch extends React.Component {
         this.setState({ reset });
         if(this.state.reset) {
             clearInterval(this.intervalID);
-            this.setState({ counter: "RESET" });
+            this.setState({ counter: 0 });
         }
     }
 
@@ -77,7 +77,7 @@ class Watch extends React.Component {
             this.setState({counter: value});
             console.log("value", value);
             if (value <= 0) {
-                this.setState({counter: "To już"});
+                this.setState({counter: 0});
                 clearInterval(this.intervalID);
             }
         }, 1000)
@@ -129,18 +129,18 @@ class Watch extends React.Component {
         />: "";
        return(
            <Container>
+               <TimerBox>
+                   Now is: {this.state.time.toLocaleTimeString()}
+               </TimerBox>
                <SettingPanel onClick={(e) => {
                    this.handleSettingPanel(e);
                }}>{this.state.settingPanelDescription}</SettingPanel>
-           <TimerBox>
-               Now is: {this.state.time.toLocaleTimeString()}
-           </TimerBox>
                <SelectorBox>
                {pomodoroData}
                </SelectorBox>
                <TimerBox>
                    <Typography>
-                   YOU HAVE: {this.state.counter}
+                   Time left: {this.state.counter / 1000} seconds
                    </Typography>
                    <ResetTimer onClick={this.handleReset}/>
                </TimerBox>

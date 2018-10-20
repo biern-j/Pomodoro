@@ -21,7 +21,7 @@ const Timer = ({ id, timePeriod, onClick, onClickTimerRemover, settingPanel}) =>
     <TimerSelector
         onClick={(e) => onClick(e, timePeriod * 1000)}
     >
-        {timePeriod + ": s"}
+        {timePeriod} seconds
     </TimerSelector>
     {remove()}
 </Container>
