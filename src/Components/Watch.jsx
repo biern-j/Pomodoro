@@ -4,6 +4,8 @@ import NewPomodoroTimer from "./NewPomodoroTimer";
 import pomodoros from "../pomodoroTimer";
 import styled from 'styled-components';
 import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
+
 import ResetTimer from "./Reset";
 
 const TimerBox = styled.div`
@@ -12,6 +14,11 @@ const TimerBox = styled.div`
 
 const SelectorBox = styled.div`
     border: "solid black 1px"
+`;
+
+const SettingPanel = styled(Button)`
+    color: black;
+    background: black;
 `;
 
 const Container = styled.div`
@@ -26,18 +33,29 @@ class Watch extends React.Component {
             pomodoroTimers: pomodoros,
             reset: false,
             timerValue: 0,
+            settingPanel: false,
+            settingPanelDescription: "SETTING PANEL"
         };
         this.setTimer = this.setTimer.bind(this);
         this.intervalID = null;
         this.handleTimerRemover = this.handleTimerRemover.bind(this);
         this.handleReset = this.handleReset.bind(this);
+        this.handleSettingPanel = this.handleSettingPanel.bind(this);
+    }
+
+    handleSettingPanel(e) {
+        e.preventDefault();
+        this.setState({
+            settingPanel: !this.state.settingPanel,
+            settingPanelDescription: this.state.settingPanel ? "SETTING PANEL" : "BACK"
+        });
     }
 
     handleReset(reset) {
         this.setState({ reset });
         if(this.state.reset) {
             clearInterval(this.intervalID);
-            this.setState({ counter: "POMODORO WAS RESERTE" });
+            this.setState({ counter: "RESET" });
         }
     }
 
@@ -95,6 +113,7 @@ class Watch extends React.Component {
         const pomodoroData = this.state.pomodoroTimers.map( item =>
             <div key={item.id}>
             <Timer
+                settingPanel={this.state.settingPanel}
                 onClickTimerRemover={this.handleTimerRemover}
                 timePeriod={item.timer}
                 id={item.id}
@@ -104,8 +123,15 @@ class Watch extends React.Component {
             />
             </div>
         );
+        const newPomodoroTimer = () => this.state.settingPanel ? <NewPomodoroTimer
+            onSubmit={this.handleSubmition}
+            handleNewTimer={this.handleNewTimer}
+        />: "";
        return(
            <Container>
+               <SettingPanel onClick={(e) => {
+                   this.handleSettingPanel(e);
+               }}>{this.state.settingPanelDescription}</SettingPanel>
            <TimerBox>
                Now is: {this.state.time.toLocaleTimeString()}
            </TimerBox>
@@ -118,10 +144,7 @@ class Watch extends React.Component {
                    </Typography>
                    <ResetTimer onClick={this.handleReset}/>
                </TimerBox>
-               <NewPomodoroTimer
-                   onSubmit={this.handleSubmition}
-                   handleNewTimer={this.handleNewTimer}
-               />
+               {newPomodoroTimer()}
            </Container>
        );
     }

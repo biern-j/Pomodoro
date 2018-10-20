@@ -13,15 +13,20 @@ const TimerRemover = styled(Button)`
     background: black;
 `;
 
-const Timer = ({ id, timePeriod, onClick, onClickTimerRemover}) =>
+const Timer = ({ id, timePeriod, onClick, onClickTimerRemover, settingPanel}) => {
+    console.log("settingPanel", settingPanel);
+    const remove = () => settingPanel ? <TimerRemover onClick={() => onClickTimerRemover(id)}>Remove</TimerRemover> : "";
+    return (
 <Container>
     <TimerSelector
         onClick={(e) => onClick(e, timePeriod * 1000)}
     >
         {timePeriod + ": s"}
     </TimerSelector>
-    <TimerRemover onClick={() => onClickTimerRemover(id)}>Remove</TimerRemover>
-</Container>;
+    {remove()}
+</Container>
+    );
+};
 
 
 export default Timer
