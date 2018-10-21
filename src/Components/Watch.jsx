@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import audio from '../Sound/audio_hero_Cat_DIGIC08-69.mp3';
 
 import ResetTimer from "./Reset";
 
@@ -112,6 +113,10 @@ class Watch extends React.Component {
     };
 
     render() {
+        const sound = () =>
+            this.state.counter === 0
+                ? (<audio autoPlay><source src={audio} type="audio/mp3" /></audio>)
+                : undefined;
         const pomodoroData = this.state.pomodoroTimers.map( item =>
             <div key={item.id}>
             <Timer
@@ -161,6 +166,7 @@ class Watch extends React.Component {
                    <ResetTimer onClick={this.handleReset}/>
                </TimerBox>
                {newPomodoroTimer()}
+               {sound()}
            </Container>
        );
     }
