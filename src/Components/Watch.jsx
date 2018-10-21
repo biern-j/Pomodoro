@@ -5,7 +5,7 @@ import pomodoros from "../pomodoroTimer";
 import styled from 'styled-components';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import ResetTimer from "./Reset";
 
@@ -18,12 +18,17 @@ const SelectorBox = styled.div`
 `;
 
 const SettingPanel = styled(Button)`
-    color: black;
-    background: black;
+  background: linear-gradient(45deg, #fe6b8b 30%, #ff8e53 90%); 
+  border-radius: 3px;
+  border: 0;
+  height: 48px;
+  padding: 0 30px;
+  box-shadow: 0 3px 5px 2px rgba(255, 105, 135, 0.3);    
 `;
 
 const Container = styled.div`
 `;
+
 
 class Watch extends React.Component {
     constructor(props) {
@@ -107,7 +112,6 @@ class Watch extends React.Component {
     };
 
     render() {
-
         const pomodoroData = this.state.pomodoroTimers.map( item =>
             <div key={item.id}>
             <Timer
@@ -121,6 +125,16 @@ class Watch extends React.Component {
             />
             </div>
         );
+        const settingPanel = (settingPanel) => {
+            switch (settingPanel) {
+                case false:
+                   return <FontAwesomeIcon icon="edit" />;
+                case true:
+                    return <FontAwesomeIcon icon="angle-left"/>;
+                default:
+                    return <FontAwesomeIcon icon="edit" />;
+            }
+        };
         const newPomodoroTimer = () => this.state.settingPanel ? <NewPomodoroTimer
             onSubmit={this.handleSubmition}
             handleNewTimer={this.handleNewTimer}
@@ -130,9 +144,13 @@ class Watch extends React.Component {
                <TimerBox>
                    Now is: {this.state.time.toLocaleTimeString()}
                </TimerBox>
-               <SettingPanel onClick={(e) => {
+               <SettingPanel
+                   onClick={(e) => {
                    this.handleSettingPanel(e);
-               }}>{this.state.settingPanel ? <FontAwesomeIcon icon="edit" />: <FontAwesomeIcon icon="edit" inverse={true} />}</SettingPanel>
+               }}
+               >
+                   {settingPanel(this.state.settingPanel)}
+                   </SettingPanel>
                <SelectorBox>
                {pomodoroData}
                </SelectorBox>
@@ -148,5 +166,5 @@ class Watch extends React.Component {
     }
 }
 
-export default Watch
+export default Watch;
 

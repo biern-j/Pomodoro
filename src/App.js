@@ -7,10 +7,9 @@ import Setting from "./Components/Setting";
 
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faGhost } from '@fortawesome/free-solid-svg-icons'
-import { faEdit, faClock } from '@fortawesome/free-solid-svg-icons'
+import { faEdit, faClock, faAngleLeft } from '@fortawesome/free-solid-svg-icons'
 
-library.add(faEdit, faClock);
+library.add(faEdit, faClock, faAngleLeft);
 
 const App = () =>
     <Watch/>;
