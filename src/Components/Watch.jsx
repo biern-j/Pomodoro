@@ -8,26 +8,39 @@ import Button from '@material-ui/core/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import audio from '../Sound/audio_hero_Cat_DIGIC08-69.mp3';
 
-import ResetTimer from "./Reset";
+import ResetTimer from "./ResetPomodoro";
 
 const TimerBox = styled.div`
-  border: "solid black 2px"  
-`;
-
-const SelectorBox = styled.div`
-    border: "solid black 1px"
+    font-family: 'Roboto', sans-serif;
+    font-size: 48px;
+    align-self: center;
 `;
 
 const SettingPanel = styled(Button)`
-  background: linear-gradient(45deg, #fe6b8b 30%, #ff8e53 90%); 
-  border-radius: 3px;
-  border: 0;
-  height: 48px;
-  padding: 0 30px;
-  box-shadow: 0 3px 5px 2px rgba(255, 105, 135, 0.3);    
+    background: linear-gradient(45deg, #fe6b8b 30%, #ff8e53 90%); 
+    border-radius: 3px;
+    border: 0;
+    height: 48px;
+    padding: 0 30px;
+    box-shadow: 0 3px 5px 2px rgba(255, 105, 135, 0.3);   
+`;
+
+const Manager = styled.div`
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    place-content: space-around;
+    width: 60%;
+    margin: 10% 20%;  
+    @media screen and (max-width: 320px) {
+    width: 100%;
+    }
 `;
 
 const Container = styled.div`
+    display: flex;
+    align-items: center;
+    flex-direction: column;
 `;
 
 
@@ -36,11 +49,13 @@ class Watch extends React.Component {
         super(props);
         this.state = {
             time: new Date(),
-            counter: "",
+            counter: 0,
             pomodoroTimers: pomodoros,
             reset: false,
             timerValue: 0,
-            settingPanel: false
+            settingPanel: false,
+            alarm: false
+
         };
         this.setTimer = this.setTimer.bind(this);
         this.intervalID = null;
@@ -70,18 +85,17 @@ class Watch extends React.Component {
     }
 
     setTimer(counter) {
-        this.setState({ pomodoroTimers: this.state.pomodoroTimers.concat([])});
         if(this.intervalID !== null) {
             clearInterval(this.intervalID);
         }
-        this.setState({counter});
+        this.setState({counter, alarm: false});
         this.intervalID = setInterval(() =>  {
             let value = this.state.counter;
             value = value - 1000;
             this.setState({counter: value});
             console.log("value", value);
             if (value <= 0) {
-                this.setState({counter: 0});
+                this.setState({counter: 0, alarm: true});
                 clearInterval(this.intervalID);
             }
         }, 1000)
@@ -114,7 +128,7 @@ class Watch extends React.Component {
 
     render() {
         const sound = () =>
-            this.state.counter === 0
+            this.state.alarm
                 ? (<audio autoPlay><source src={audio} type="audio/mp3" /></audio>)
                 : undefined;
         const pomodoroData = this.state.pomodoroTimers.map( item =>
@@ -140,31 +154,25 @@ class Watch extends React.Component {
                     return <FontAwesomeIcon icon="edit" />;
             }
         };
+        const resetTimer = () => this.state.counter !== 0 ? <ResetTimer onClick={this.handleReset}/> : undefined;
         const newPomodoroTimer = () => this.state.settingPanel ? <NewPomodoroTimer
             onSubmit={this.handleSubmition}
             handleNewTimer={this.handleNewTimer}
         />: "";
        return(
            <Container>
-               <TimerBox>
-                   Now is: {this.state.time.toLocaleTimeString()}
-               </TimerBox>
-               <SettingPanel
-                   onClick={(e) => {
-                   this.handleSettingPanel(e);
-               }}
-               >
-                   {settingPanel(this.state.settingPanel)}
-                   </SettingPanel>
-               <SelectorBox>
+               {/*<TimerBox>/!*{this.state.time.toLocaleTimeString()}*!/*/}
+               {/*</TimerBox>*/}
+               <Manager>
+               <SettingPanel onClick={(e) => {this.handleSettingPanel(e);}}>{
+                   settingPanel(this.state.settingPanel)}
+               </SettingPanel>
                {pomodoroData}
-               </SelectorBox>
+               </Manager>
                <TimerBox>
-                   <Typography>
-                   Time left: {this.state.counter / 1000} seconds
-                   </Typography>
-                   <ResetTimer onClick={this.handleReset}/>
+                {this.state.counter / 1000} seconds
                </TimerBox>
+               {resetTimer()}
                {newPomodoroTimer()}
                {sound()}
            </Container>
