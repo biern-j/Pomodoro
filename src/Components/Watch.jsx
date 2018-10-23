@@ -41,6 +41,8 @@ const Container = styled.div`
     display: flex;
     align-items: center;
     flex-direction: column;
+    place-content: space-around;
+
 `;
 
 
@@ -144,8 +146,8 @@ class Watch extends React.Component {
             />
             </div>
         );
-        const settingPanel = (settingPanel) => {
-            switch (settingPanel) {
+        const settingPanel = () => {
+            switch (this.state.settingPanel) {
                 case false:
                    return <FontAwesomeIcon icon="edit" />;
                 case true:
@@ -159,21 +161,20 @@ class Watch extends React.Component {
             onSubmit={this.handleSubmition}
             handleNewTimer={this.handleNewTimer}
         />: "";
+        const timeBox = () => !this.state.settingPanel ? (<TimerBox>
+            {this.state.counter / 1000} seconds
+        </TimerBox>): "";
        return(
            <Container>
-               {/*<TimerBox>/!*{this.state.time.toLocaleTimeString()}*!/*/}
-               {/*</TimerBox>*/}
                <Manager>
-               <SettingPanel onClick={(e) => {this.handleSettingPanel(e);}}>{
-                   settingPanel(this.state.settingPanel)}
+               <SettingPanel onClick={(e) => {this.handleSettingPanel(e);}}>
+                   {settingPanel()}
                </SettingPanel>
                {pomodoroData}
                </Manager>
-               <TimerBox>
-                {this.state.counter / 1000} seconds
-               </TimerBox>
-               {resetTimer()}
                {newPomodoroTimer()}
+               {timeBox()}
+               {resetTimer()}
                {sound()}
            </Container>
        );
