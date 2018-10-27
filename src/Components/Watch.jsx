@@ -179,7 +179,7 @@ class Watch extends React.Component {
             handleNewTimer={this.handleNewTimer}
         />: "";
         const timeBox = () => !this.state.settingPanel && !this.state.cat ? (<TimerBox>
-            {this.state.counter / 1000} seconds
+            {Math.floor((this.state.counter / 1000) / 60)}:{this.state.counter / 1000 % 60}
         </TimerBox>): "";
        return(
            <Container>

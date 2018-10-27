@@ -29,7 +29,7 @@ const Timer = ({ id, timePeriod, onClick, onClickTimerRemover, settingPanel}) =>
     const remove = () => settingPanel ? <Icon onClick={() => onClickTimerRemover(id)} icon="times-circle"/> : "";
     return (
         <Container>
-            <TimerSelector disable onClick={(e) => settingPanel ? "" : onClick(e, timePeriod * 1000)}>
+            <TimerSelector disable onClick={(e) => settingPanel ? "" : onClick(e, timePeriod * 60000)}>
                 {timePeriod} seconds
             </TimerSelector>
             {remove()}
