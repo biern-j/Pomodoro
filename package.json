@@ -17,7 +17,8 @@
     "react-dom": "^16.2.0",
     "react-scripts": "1.1.1",
     "react-stonecutter": "^0.3.9",
-    "styled-components": "^3.4.9"
+    "styled-components": "^3.4.9",
+    "surge": "^0.20.1"
   },
   "scripts": {
     "start": "react-scripts start",
