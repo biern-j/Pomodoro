@@ -7,6 +7,7 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import audio from '../Sound/audio_hero_Cat_DIGIC08-69.mp3';
+import cat from '../cat-image.png';
 
 import ResetTimer from "./ResetPomodoro";
 
@@ -45,6 +46,19 @@ const Container = styled.div`
 
 `;
 
+const CatReward = styled.img`
+    width: 20%;
+    height: 20%;
+-webkit-animation:spin 4s linear infinite;
+    -moz-animation:spin 4s linear infinite;
+    animation:spin 4s linear infinite;
+    @-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
+@-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
+@keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
+
+
+`;
+
 
 class Watch extends React.Component {
     constructor(props) {
@@ -56,7 +70,8 @@ class Watch extends React.Component {
             reset: false,
             timerValue: 0,
             settingPanel: false,
-            alarm: false
+            alarm: false,
+            cat: false
 
         };
         this.setTimer = this.setTimer.bind(this);
@@ -90,14 +105,14 @@ class Watch extends React.Component {
         if(this.intervalID !== null) {
             clearInterval(this.intervalID);
         }
-        this.setState({counter, alarm: false});
+        this.setState({counter, alarm: false, cat: false});
         this.intervalID = setInterval(() =>  {
             let value = this.state.counter;
             value = value - 1000;
             this.setState({counter: value});
             console.log("value", value);
             if (value <= 0) {
-                this.setState({counter: 0, alarm: true});
+                this.setState({counter: 0, alarm: true, cat: true});
                 clearInterval(this.intervalID);
             }
         }, 1000)
@@ -129,6 +144,7 @@ class Watch extends React.Component {
     };
 
     render() {
+        const catReward = () => this.state.cat ? <CatReward src={cat} /> : "";
         const sound = () =>
             this.state.alarm
                 ? (<audio autoPlay><source src={audio} type="audio/mp3" /></audio>)
@@ -161,17 +177,18 @@ class Watch extends React.Component {
             onSubmit={this.handleSubmition}
             handleNewTimer={this.handleNewTimer}
         />: "";
-        const timeBox = () => !this.state.settingPanel ? (<TimerBox>
+        const timeBox = () => !this.state.settingPanel && !this.state.cat ? (<TimerBox>
             {this.state.counter / 1000} seconds
         </TimerBox>): "";
        return(
            <Container>
                <Manager>
-               <SettingPanel onClick={(e) => {this.handleSettingPanel(e);}}>
-                   {settingPanel()}
-               </SettingPanel>
-               {pomodoroData}
-               </Manager>
+                   <SettingPanel onClick={(e) => {this.handleSettingPanel(e);}}>
+                       {settingPanel()}
+                       </SettingPanel>
+                   {pomodoroData}
+                   </Manager>
+               {catReward()}
                {newPomodoroTimer()}
                {timeBox()}
                {resetTimer()}
