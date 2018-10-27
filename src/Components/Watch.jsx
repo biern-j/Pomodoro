@@ -84,7 +84,8 @@ class Watch extends React.Component {
     handleSettingPanel(e) {
         e.preventDefault();
         this.setState({
-            settingPanel: !this.state.settingPanel});
+            settingPanel: !this.state.settingPanel,
+            cat: false });
     }
 
     handleReset(reset) {
