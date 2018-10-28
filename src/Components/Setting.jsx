@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Timer from "./Timer";
+import TimerOption from "./TimerOption";
 
 
 //TODO:
@@ -23,7 +23,7 @@ class Setting extends React.Component {
 
     handleSubmit = (e) => {
         e.preventDefault();
-        this.setState({ timers: this.state.timers.concat(<Timer timePeriod={this.state.timer} description={this.state.description} onClick={ () => this.onClick}/>)})
+        this.setState({ timers: this.state.timers.concat(<TimerOption timePeriod={this.state.timer} description={this.state.description} onClick={ () => this.onClick}/>)})
     };
 
     render(){
