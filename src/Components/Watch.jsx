@@ -49,12 +49,12 @@ const Container = styled.div`
 const CatReward = styled.img`
     width: 20%;
     height: 20%;
--webkit-animation:spin 4s linear infinite;
+    -webkit-animation:spin 4s linear infinite;
     -moz-animation:spin 4s linear infinite;
     animation:spin 4s linear infinite;
     @-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
-@-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
-@keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
+    @-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
+    @keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
 
 
 `;
@@ -178,8 +178,11 @@ class Watch extends React.Component {
             onSubmit={this.handleSubmition}
             handleNewTimer={this.handleNewTimer}
         />: "";
+        const seconds = this.state.counter / 1000;
+        const formatingTime = (operation) => Math.floor(operation);
+        const watch =`${formatingTime(seconds / 60)}`+":"+`${formatingTime(seconds % 60)}`;
         const timeBox = () => !this.state.settingPanel && !this.state.cat ? (<TimerBox>
-            {Math.floor((this.state.counter / 1000) / 60)}:{this.state.counter / 1000 % 60}
+            {watch}
         </TimerBox>): "";
        return(
            <Container>
