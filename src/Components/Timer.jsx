@@ -30,7 +30,7 @@ const Timer = ({ id, timePeriod, onClick, onClickTimerRemover, settingPanel}) =>
     return (
         <Container>
             <TimerSelector disable onClick={(e) => settingPanel ? "" : onClick(e, timePeriod * 60000)}>
-                {timePeriod} seconds
+                {timePeriod} minutes
             </TimerSelector>
             {remove()}
         </Container>

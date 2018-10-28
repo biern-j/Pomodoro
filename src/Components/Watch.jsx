@@ -1,15 +1,17 @@
 import React from 'react'
-import Timer from "./Timer";
-import NewPomodoroTimer from "./NewPomodoroTimer";
-import pomodoros from "../pomodoroTimer";
 import styled from 'styled-components';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import format from 'date-fns/format';
+
+import Timer from "./Timer";
+import NewPomodoroTimer from "./NewPomodoroTimer";
+import ResetTimer from "./ResetPomodoro";
+
+import pomodoros from "../pomodoroTimer";
 import audio from '../Sound/audio_hero_Cat_DIGIC08-69.mp3';
 import cat from '../cat-image.png';
-
-import ResetTimer from "./ResetPomodoro";
 
 const TimerBox = styled.div`
     font-family: 'Roboto', sans-serif;
@@ -178,11 +180,9 @@ class Watch extends React.Component {
             onSubmit={this.handleSubmition}
             handleNewTimer={this.handleNewTimer}
         />: "";
-        const seconds = this.state.counter / 1000;
-        const formatingTime = (operation) => Math.floor(operation);
-        const watch =`${formatingTime(seconds / 60)}`+":"+`${formatingTime(seconds % 60)}`;
+        const timeRemaining = format(this.state.counter, ['mm:ss']);
         const timeBox = () => !this.state.settingPanel && !this.state.cat ? (<TimerBox>
-            {watch}
+            {timeRemaining}
         </TimerBox>): "";
        return(
            <Container>
