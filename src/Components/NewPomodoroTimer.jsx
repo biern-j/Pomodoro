@@ -9,32 +9,27 @@ import TimerOption from "./TimerOption";
 class NewPomodoroTimer extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { inputTimer: "", timer: "", timers: [] };
+        this.state = { minutes: "00", seconds: "00" };
     }
 
     handleChangeTimer = (e) => this.setState({ timer: e.target.value });
 
     handleSubmit = (e) => {
         e.preventDefault();
-        this.setState({ timer: "", timers: this.state.timers.concat(
-            <TimerOption
-                timePeriod={this.state.timer}
-                onClick={ (e) => this.props.onClick(e, this.state.timer)}
-            />)});
-
+        const minutes = (+this.state.minutes + +this.state.seconds / 60);
+        this.props.onSubmit(minutes);
+        this.setState({ minutes: "00", seconds: "00" });
     };
 
     render() {
         return(
-            <form onSubmit={(e) => this.props.onSubmit(this.handleSubmit(e))} type="reset">
+            <form onSubmit={this.handleSubmit} type="reset">
                 <FormLabel>
-                    NEW TIMER
-                <Input type="text" value={this.state.timer} onChange={(e) => {
-                    this.props.handleNewTimer(e.target.value);
-                    this.handleChangeTimer(e);}}
-                />
-                    </FormLabel>
-                <Input type="submit" value="Submit" />
+                    <Input type="text" inputProps={{size: 2}} value={this.state.minutes} onChange={(e) => this.setState({ minutes: e.target.value })} />
+                    :
+                    <Input type="text" inputProps={{size: 2}} value={this.state.seconds} onChange={(e) => this.setState({ seconds: e.target.value })} />
+                </FormLabel>
+                <Input type="submit" value="Add" />
             </form>
         );
     }

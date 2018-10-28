@@ -1,8 +1,8 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
 import styled from 'styled-components';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import format from 'date-fns/format';
 
 
 const TimerSelector = styled(Button)`
@@ -27,10 +27,11 @@ const Icon = styled(FontAwesomeIcon)`
 const TimerOption = ({ id, timePeriod, onClick, onClickTimerRemover, settingPanel}) => {
 
     const remove = () => settingPanel ? <Icon onClick={() => onClickTimerRemover(id)} icon="times-circle"/> : "";
+    const time = format(timePeriod, ['mm:ss']);
     return (
         <Container>
-            <TimerSelector disable onClick={(e) => settingPanel ? "" : onClick(e, timePeriod * 60000)}>
-                {timePeriod} minutes
+            <TimerSelector disable onClick={(e) => settingPanel ? "" : onClick(e, timePeriod)}>
+                {time}
             </TimerSelector>
             {remove()}
         </Container>

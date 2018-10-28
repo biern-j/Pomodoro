@@ -137,9 +137,13 @@ class Watch extends React.Component {
     }
 
     componentDidMount() {
-       this.watchID = setInterval(() => {
-           this.tick();
-           }, 1000);
+    const timers = localStorage.getItem("timers");
+    if (timers) {
+        this.setState({ pomodoroTimers: JSON.parse(timers) });
+    }
+    this.watchID = setInterval(() => {
+        this.tick();
+        }, 1000);
     }
 
     componentWillUnmount() {
@@ -148,16 +152,13 @@ class Watch extends React.Component {
     }
 
     tick() {
-        this.setState({ time: new Date()})
+        this.setState({ time: new Date() });
     }
 
-    handleNewTimer = (item) => {
-        this.setState({ timerValue: item });
-    };
-
-    handleSubmition = (item) => {
-        this.setState({pomodoroTimers: [...this.state.pomodoroTimers, { "timer": this.state.timerValue, "id": Math.random()}]});
-        return item;
+    handleSubmition = (timerPeriod) => {
+        const pomodoroTimers = [...this.state.pomodoroTimers, { timer:  timerPeriod, id: Math.random()}];
+        this.setState({ pomodoroTimers });
+        localStorage.setItem("timers", JSON.stringify(pomodoroTimers));
     };
 
     render() {
@@ -171,7 +172,7 @@ class Watch extends React.Component {
             <TimerOption
                 settingPanel={this.state.settingPanel}
                 onClickTimerRemover={this.handleTimerRemover}
-                timePeriod={item.timer}
+                timePeriod={item.timer * 60 * 1000}
                 id={item.id}
                 onClick={(e, counter) => {
                     this.setTimer(counter);
