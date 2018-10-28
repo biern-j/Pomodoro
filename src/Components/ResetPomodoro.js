@@ -12,8 +12,8 @@ const ResetPomodoro = styled(Button)`
 `;
 
 const ResetTimer = ({ onClick }) =>
-    <ResetPomodoro onClick={() => onClick(true) }>
-        Cancel
+    <ResetPomodoro onClick={onClick}>
+        Stop
     </ResetPomodoro>;
 
 export default ResetTimer;
