@@ -24,7 +24,7 @@ const Icon = styled(FontAwesomeIcon)`
     top: -0.4rem;
 `;
 
-const Timer = ({ id, timePeriod, onClick, onClickTimerRemover, settingPanel}) => {
+const TimerOption = ({ id, timePeriod, onClick, onClickTimerRemover, settingPanel}) => {
 
     const remove = () => settingPanel ? <Icon onClick={() => onClickTimerRemover(id)} icon="times-circle"/> : "";
     return (
@@ -37,4 +37,4 @@ const Timer = ({ id, timePeriod, onClick, onClickTimerRemover, settingPanel}) =>
     );
 };
 
-export default Timer
+export default TimerOption
