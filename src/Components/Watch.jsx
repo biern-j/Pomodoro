@@ -5,9 +5,10 @@ import Button from '@material-ui/core/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import format from 'date-fns/format';
 
-import Timer from "./Timer";
+import TimerOption from "./TimerOption";
 import NewPomodoroTimer from "./NewPomodoroTimer";
 import ResetTimer from "./ResetPomodoro";
+import StopTimer from "./Stop-Start";
 
 import pomodoros from "../pomodoroTimer";
 import audio from '../Sound/audio_hero_Cat_DIGIC08-69.mp3';
@@ -15,7 +16,7 @@ import cat from '../cat-image.png';
 
 const TimerBox = styled.div`
     font-family: 'Roboto', sans-serif;
-    font-size: 48px;
+    font-size: 500%;
     align-self: center;
 `;
 
@@ -57,8 +58,19 @@ const CatReward = styled.img`
     @-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
     @-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
     @keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
+`;
 
-
+const TimerController = styled.div`
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    place-content: space-around;
+    width: 20%;
+    margin: 5%;
+        
+    @media screen and (max-width: 320px) {
+        width: 100%;
+    }
 `;
 
 
@@ -69,38 +81,42 @@ class Watch extends React.Component {
             time: new Date(),
             counter: 0,
             pomodoroTimers: pomodoros,
-            reset: false,
             timerValue: 0,
             settingPanel: false,
             alarm: false,
-            cat: false
-
+            timerController: false
         };
         this.setTimer = this.setTimer.bind(this);
         this.intervalID = null;
         this.handleTimerRemover = this.handleTimerRemover.bind(this);
         this.handleReset = this.handleReset.bind(this);
         this.handleSettingPanel = this.handleSettingPanel.bind(this);
+        this.handleTimerController = this.handleTimerController.bind(this);
     }
+
+    handleTimerController(controller) {
+        this.setState({ timerController: controller });
+        clearInterval(this.intervalID);
+        if(!controller) {
+            this.setTimer(this.state.counter)
+        }
+    };
 
     handleSettingPanel(e) {
         e.preventDefault();
         this.setState({
             settingPanel: !this.state.settingPanel,
-            cat: false });
+            alarm: false
+        });
     }
 
-    handleReset(reset) {
-        this.setState({ reset });
-        if(this.state.reset) {
-            clearInterval(this.intervalID);
-            this.setState({ counter: 0 });
-        }
+    handleReset() {
+        clearInterval(this.intervalID);
+        this.setState({ counter: 0 });
     }
 
     handleTimerRemover(id) {
-        this.setState({ pomodoroTimers: this.state.pomodoroTimers.filter(item => id !== item.id)});
-        console.log("id", id, this.state.pomodoroTimers.filter(item => id !== item.id));
+        this.setState({ pomodoroTimers: this.state.pomodoroTimers.filter(item => id !== item.id) });
 
     }
 
@@ -108,14 +124,13 @@ class Watch extends React.Component {
         if(this.intervalID !== null) {
             clearInterval(this.intervalID);
         }
-        this.setState({counter, alarm: false, cat: false});
+        this.setState({counter, alarm: false });
         this.intervalID = setInterval(() =>  {
             let value = this.state.counter;
             value = value - 1000;
             this.setState({counter: value});
-            console.log("value", value);
             if (value <= 0) {
-                this.setState({counter: 0, alarm: true, cat: true});
+                this.setState({ counter: 0, alarm: true });
                 clearInterval(this.intervalID);
             }
         }, 1000)
@@ -141,20 +156,19 @@ class Watch extends React.Component {
     };
 
     handleSubmition = (item) => {
-        this.setState({ pomodoroTimers: [...this.state.pomodoroTimers, { "timer": this.state.timerValue,
-                "id": Math.random()}]});
+        this.setState({pomodoroTimers: [...this.state.pomodoroTimers, { "timer": this.state.timerValue, "id": Math.random()}]});
         return item;
     };
 
     render() {
-        const catReward = () => this.state.cat ? <CatReward src={cat} /> : "";
+        const catReward = () => this.state.alarm ? <CatReward src={cat} /> : "";
         const sound = () =>
             this.state.alarm
                 ? (<audio autoPlay><source src={audio} type="audio/mp3" /></audio>)
                 : undefined;
-        const pomodoroData = this.state.pomodoroTimers.map( item =>
+        const timerSelect = this.state.pomodoroTimers.map( item =>
             <div key={item.id}>
-            <Timer
+            <TimerOption
                 settingPanel={this.state.settingPanel}
                 onClickTimerRemover={this.handleTimerRemover}
                 timePeriod={item.timer}
@@ -175,24 +189,26 @@ class Watch extends React.Component {
                     return <FontAwesomeIcon icon="edit" />;
             }
         };
-        const resetTimer = () => this.state.counter !== 0 ? <ResetTimer onClick={this.handleReset}/> : undefined;
+        const resetTimer = () => this.state.counter !== 0 ?
+            <TimerController>
+            <ResetTimer onClick={this.handleReset}/>
+            <StopTimer controller={this.state.timerController} onClick={(controller) => this.handleTimerController(controller)}/>
+            </TimerController>
+                : undefined;
         const newPomodoroTimer = () => this.state.settingPanel ? <NewPomodoroTimer
             onSubmit={this.handleSubmition}
             handleNewTimer={this.handleNewTimer}
         />: "";
         const timeRemaining = format(this.state.counter, ['mm:ss']);
-        const timeBox = () => !this.state.settingPanel && !this.state.cat ? (<TimerBox>
-            {timeRemaining}
-        </TimerBox>): "";
-       return(
-           <Container>
-               <Manager>
-                   <SettingPanel onClick={(e) => {this.handleSettingPanel(e);}}>
-                       {settingPanel()}
-                       </SettingPanel>
-                   {pomodoroData}
-                   </Manager>
-               {catReward()}
+        const timeBox = () => !this.state.settingPanel && !this.state.alarm ?
+            (<TimerBox>{timeRemaining}</TimerBox>): "";
+        return(
+            <Container>
+                <Manager>
+                    <SettingPanel onClick={(e) => this.handleSettingPanel(e)}>{settingPanel()}</SettingPanel>
+                    {timerSelect}
+                    </Manager>
+                {catReward()}
                {newPomodoroTimer()}
                {timeBox()}
                {resetTimer()}
