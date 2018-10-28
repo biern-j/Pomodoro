@@ -3,7 +3,7 @@ import FormLabel from '@material-ui/core/FormLabel';
 import Input from '@material-ui/core/Input';
 
 
-import Timer from "./Timer";
+import TimerOption from "./TimerOption";
 
 
 class NewPomodoroTimer extends React.Component {
@@ -17,7 +17,7 @@ class NewPomodoroTimer extends React.Component {
     handleSubmit = (e) => {
         e.preventDefault();
         this.setState({ timer: "", timers: this.state.timers.concat(
-            <Timer
+            <TimerOption
                 timePeriod={this.state.timer}
                 onClick={ (e) => this.props.onClick(e, this.state.timer)}
             />)});
