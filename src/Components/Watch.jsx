@@ -12,7 +12,7 @@ import StopTimer from "./Stop-Start";
 
 import pomodoros from "../pomodoroTimer";
 import audio from '../Sound/audio_hero_Cat_DIGIC08-69.mp3';
-import cat from '../cat-image.png';
+import cat from '../kitten.png';
 
 const TimerBox = styled.div`
     font-family: 'Roboto', sans-serif;
