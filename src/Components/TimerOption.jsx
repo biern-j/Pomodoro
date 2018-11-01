@@ -16,6 +16,7 @@ const TimerSelector = styled(Button)`
 
 const Container = styled.div`
     position: relative;
+    margin: 10%;
 `;
 
 const Icon = styled(FontAwesomeIcon)`

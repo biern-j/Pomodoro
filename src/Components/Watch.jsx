@@ -32,10 +32,11 @@ const SettingPanel = styled(Button)`
 const Manager = styled.div`
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
     justify-content: center;
     place-content: space-around;
     width: 60%;
-    margin: 10% 20%;  
+    margin: 10%;  
     @media screen and (max-width: 320px) {
     width: 100%;
     }
