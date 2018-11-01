@@ -108,6 +108,7 @@ class Watch extends React.Component {
             settingPanel: !this.state.settingPanel,
             alarm: false
         });
+        localStorage.setItem("timers", JSON.stringify(this.state.pomodoroTimers));
     }
 
     handleReset() {
