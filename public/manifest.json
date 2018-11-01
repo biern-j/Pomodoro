@@ -1,9 +1,9 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Pomodoro",
+  "name": "Pomodoro project",
   "icons": [
     {
-      "src": "./cat-image.png",
+      "src": "cropped_cat_favicon_2_gyH_icon",
       "sizes": "64x64 32x32 24x24 16x16",
       "type": "image/x-icon"
     }
