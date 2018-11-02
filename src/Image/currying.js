@@ -36,5 +36,4 @@ const mulNumbers = [2,3,4,5,6];
 
 const superList = mulNumbers.map(n => number.map(mul(n)));
 
-console.log('super list', superList);
 // console.log('mul', mul(4, 5));

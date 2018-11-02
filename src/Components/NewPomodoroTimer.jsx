@@ -27,10 +27,8 @@ class NewPomodoroTimer extends React.Component {
 
 
     handleSubmit = (e) => {
-        console.log("minutes after", parseInt(this.state.minutes, 10));
-        console.log("seconds after", parseInt(this.state.seconds, 10));
         e.preventDefault();
-        if(!this.hasError()) {
+        if(!this.hasError() && this.state.minute !== "" && this.state.seconds !== "" ) {
             const minutes = (+this.state.minutes + +this.state.seconds / 60);
             this.props.onSubmit(minutes);
             this.setState(initialState);
