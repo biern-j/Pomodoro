@@ -7,7 +7,9 @@ const Error = styled.div`
     color: red;
 `;
 
-const Container = styled.div``;
+const Container = styled.div`
+    font-size: 120%;
+`;
 
 const initialState = { minutes: "", seconds: "" };
 
@@ -28,7 +30,7 @@ class NewPomodoroTimer extends React.Component {
 
     handleSubmit = (e) => {
         e.preventDefault();
-        if(!this.hasError() && this.state.minute !== "" && this.state.seconds !== "" ) {
+        if(!this.hasError() && !(this.state.minutes === "" && this.state.seconds === "")) {
             const minutes = (+this.state.minutes + +this.state.seconds / 60);
             this.props.onSubmit(minutes);
             this.setState(initialState);

@@ -14,6 +14,10 @@ import pomodoros from "../pomodoroTimer";
 import audio from '../Sound/audio_hero_Cat_DIGIC08-69.mp3';
 import cat from '../kitten.png';
 
+const NewTimerPanel = styled(NewPomodoroTimer)`
+    font-size: 120%;
+`;
+
 const TimerBox = styled.div`
     font-family: 'Roboto', sans-serif;
     font-size: 500%;
@@ -198,7 +202,7 @@ class Watch extends React.Component {
             <StopTimer controller={this.state.timerController} onClick={(controller) => this.handleTimerController(controller)}/>
             </TimerController>
                 : undefined;
-        const newPomodoroTimer = () => this.state.settingPanel ? <NewPomodoroTimer
+        const newPomodoroTimer = () => this.state.settingPanel ? <NewTimerPanel
             onSubmit={this.handleSubmition}
             handleNewTimer={this.handleNewTimer}
         />: "";
@@ -212,7 +216,7 @@ class Watch extends React.Component {
                     {timerSelect}
                     </Manager>
                 {catReward()}
-               {newPomodoroTimer()}
+              {newPomodoroTimer()}
                {timeBox()}
                {resetTimer()}
                {sound()}
