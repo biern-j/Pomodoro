@@ -1,5 +1,4 @@
 import React from 'react';
-import FormLabel from '@material-ui/core/FormLabel';
 import Input from '@material-ui/core/Input';
 import  styled from 'styled-components';
 
@@ -8,8 +7,15 @@ const Error = styled.div`
 `;
 
 const Container = styled.div`
-    font-size: 120%;
 `;
+
+const InputStyle = styled(Input)`
+       font-size: 120px;
+`;
+//
+// const Form = styled(form)`
+// `;
+
 
 const initialState = { minutes: "", seconds: "" };
 
@@ -46,12 +52,12 @@ class NewPomodoroTimer extends React.Component {
         return(
             <Container>
             <form onSubmit={this.handleSubmit} type="reset">
-                <FormLabel>
-                    <Input placeholder="00" type="text" inputProps={{size: 2}} value={this.state.minutes} onChange={(e) => this.handleChangeMinute(e)} />
+
+                    <InputStyle style={{ fontSize: '63px' }} placeholder="00" type="text" inputProps={{size: 2}} value={this.state.minutes} onChange={(e) => this.handleChangeMinute(e)} />
                     :
-                    <Input placeholder="00" type="text" inputProps={{size: 2}} value={this.state.seconds} onChange={(e) => this.handleChangeSecond(e)} />
-                </FormLabel>
-                <Input type="submit" value="Add" />
+                    <InputStyle style={{ fontSize: '63px' }} placeholder="00" type="text" inputProps={{size: 2}} value={this.state.seconds} onChange={(e) => this.handleChangeSecond(e)} />
+
+                <InputStyle style={{ fontSize: '63px' }} type="submit" value="Add" />
             </form>
                 {this.hasError() ? <Error>Invalid input</Error> : ""}
             </Container>

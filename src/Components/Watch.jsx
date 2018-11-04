@@ -15,7 +15,6 @@ import audio from '../Sound/audio_hero_Cat_DIGIC08-69.mp3';
 import cat from '../kitten.png';
 
 const NewTimerPanel = styled(NewPomodoroTimer)`
-    font-size: 120%;
 `;
 
 const TimerBox = styled.div`
@@ -51,7 +50,6 @@ const Container = styled.div`
     align-items: center;
     flex-direction: column;
     place-content: space-around;
-
 `;
 
 const CatReward = styled.img`
