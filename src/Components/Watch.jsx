@@ -149,8 +149,7 @@ class Watch extends React.Component {
             if (value <= 0) {
                 this.setState({ counter: 0, alarm: true });
                 clearInterval(this.intervalID);
-                spawnNotification("To już", {body: "I co teraz?",
-                    icon: notificationCat});
+                spawnNotification("To już", notificationCat, "I co teraz?");
             }
         }, 1000)
     }
