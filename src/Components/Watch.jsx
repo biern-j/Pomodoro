@@ -77,19 +77,6 @@ const TimerController = styled.div`
     }
 `;
 
-function spawnNotification(theBody,theIcon,theTitle) {
-    const options = {
-        body: theBody,
-        icon: theIcon
-    };
-    const n = new Notification(theTitle,options);
-    return n;
-}
-
-Notification.requestPermission().then(function(result) {
-    console.log(result);
-});
-
 class Watch extends React.Component {
     constructor(props) {
         super(props);
@@ -149,18 +136,19 @@ class Watch extends React.Component {
             if (value <= 0) {
                 this.setState({ counter: 0, alarm: true });
                 clearInterval(this.intervalID);
-                spawnNotification("To już", notificationCat, "I co teraz?");
+                new Notification("To już", { body: "I co teraz?", icon: notificationCat});
             }
         }, 1000)
     }
 
     componentDidMount() {
-    const timers = localStorage.getItem("timers");
-    if (timers) {
-        this.setState({ pomodoroTimers: JSON.parse(timers) });
-    }
-    this.watchID = setInterval(() => {
-        this.tick();
+        Notification.requestPermission();
+        const timers = localStorage.getItem("timers");
+        if (timers) {
+            this.setState({ pomodoroTimers: JSON.parse(timers) });
+        }
+        this.watchID = setInterval(() => {
+            this.tick();
         }, 1000);
     }
 
