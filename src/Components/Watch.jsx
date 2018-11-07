@@ -13,6 +13,7 @@ import StopTimer from "./Stop-Start";
 import pomodoros from "../pomodoroTimer";
 import audio from '../Sound/audio_hero_Cat_DIGIC08-69.mp3';
 import cat from '../kitten.png';
+import notificationCat from '../Image/cropped_cat_favicon_2_gyH_icon.ico';
 
 const NewTimerPanel = styled(NewPomodoroTimer)`
 `;
@@ -76,6 +77,18 @@ const TimerController = styled.div`
     }
 `;
 
+function spawnNotification(theBody,theIcon,theTitle) {
+    const options = {
+        body: theBody,
+        icon: theIcon
+    };
+    const n = new Notification(theTitle,options);
+    return n;
+}
+
+Notification.requestPermission().then(function(result) {
+    console.log(result);
+});
 
 class Watch extends React.Component {
     constructor(props) {
@@ -136,6 +149,8 @@ class Watch extends React.Component {
             if (value <= 0) {
                 this.setState({ counter: 0, alarm: true });
                 clearInterval(this.intervalID);
+                spawnNotification("To już", {body: "I co teraz?",
+                    icon: notificationCat});
             }
         }, 1000)
     }
