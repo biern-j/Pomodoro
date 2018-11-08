@@ -12,7 +12,7 @@ import StopTimer from "./Stop-Start";
 
 import pomodoros from "../pomodoroTimer";
 import audio from '../Sound/audio_hero_Cat_DIGIC08-69.mp3';
-import cat from '../kitten.png';
+import cat from '../Image/kitten.png';
 import notificationCat from '../Image/cropped_cat_favicon_2_gyH_icon.ico';
 
 const NewTimerPanel = styled(NewPomodoroTimer)`
