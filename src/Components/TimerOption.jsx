@@ -31,7 +31,7 @@ const TimerOption = ({ id, timePeriod, onClick, onClickTimerRemover, settingPane
     const time = format(timePeriod, ['mm:ss']);
     return (
         <Container>
-            <TimerSelector disable onClick={(e) => settingPanel ? "" : onClick(e, timePeriod)}>
+            <TimerSelector onClick={(e) => settingPanel ? "" : onClick(e, timePeriod)}>
                 {time}
             </TimerSelector>
             {remove()}
