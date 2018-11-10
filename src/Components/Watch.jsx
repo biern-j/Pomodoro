@@ -1,18 +1,16 @@
 import React from 'react'
 import styled from 'styled-components';
-import Button from '@material-ui/core/Button';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import format from 'date-fns/format';
-
-import TimerOption from "./TimerOption";
-import NewPomodoroTimer from "./NewPomodoroTimer";
-import ResetTimer from "./ResetPomodoro";
-import StopTimer from "./Stop-Start";
 
 import pomodoros from "../pomodoroTimer";
 import audio from '../Sound/audio_hero_Cat_DIGIC08-69.ogg';
 import cat from '../Image/kitten.png';
 import notificationCat from '../Image/cropped_cat_favicon_2_gyH_icon.ico';
+
+import NewPomodoroTimer from "./NewPomodoroTimer";
+import Alarm from "./Alarm";
+import ManagerPanel from "./ManagerPanel";
+import TimerController from "./TimerController";
 
 const NewTimerPanel = styled(NewPomodoroTimer)`
 `;
@@ -23,57 +21,12 @@ const TimerBox = styled.div`
     align-self: center;
 `;
 
-const SettingPanel = styled(Button)`
-    background: linear-gradient(45deg, #fe6b8b 30%, #ff8e53 90%); 
-    border-radius: 3px;
-    border: 0;
-    height: 48px;
-    padding: 0 30px;
-    box-shadow: 0 3px 5px 2px rgba(255, 105, 135, 0.3);   
-`;
-
-const Manager = styled.div`
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
-    place-content: space-around;
-    width: 60%;
-    margin: 10%;  
-    @media screen and (max-width: 320px) {
-    width: 100%;
-    }
-`;
 
 const Container = styled.div`
     display: flex;
     align-items: center;
     flex-direction: column;
     place-content: space-around;
-`;
-
-const CatReward = styled.img`
-    width: 20%;
-    height: 20%;
-    -webkit-animation:spin 4s linear infinite;
-    -moz-animation:spin 4s linear infinite;
-    animation:spin 4s linear infinite;
-    @-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
-    @-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
-    @keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
-`;
-
-const TimerController = styled.div`
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    place-content: space-around;
-    width: 20%;
-    margin: 5%;
-        
-    @media screen and (max-width: 320px) {
-        width: 100%;
-    }
 `;
 
 class Watch extends React.Component {
@@ -167,58 +120,33 @@ class Watch extends React.Component {
     };
 
     render() {
-        const catReward = () => this.state.alarm ? <CatReward src={cat} /> : "";
-        const sound = () =>
-            this.state.alarm
-                ? (<audio autoPlay><source src={audio} type="audio/ogg" /></audio>)
-                : undefined;
-        const timerSelect = this.state.pomodoroTimers.map( item =>
-            <div key={item.id}>
-            <TimerOption
-                settingPanel={this.state.settingPanel}
-                onClickTimerRemover={this.handleTimerRemover}
-                timePeriod={item.timer * 60 * 1000}
-                id={item.id}
-                onClick={(e, counter) => {
-                    this.setTimer(counter);
-                }}
-            />
-            </div>
-        );
-        const settingPanel = () => {
-            switch (this.state.settingPanel) {
-                case false:
-                   return <FontAwesomeIcon icon="edit" />;
-                case true:
-                    return <FontAwesomeIcon icon="angle-left"/>;
-                default:
-                    return <FontAwesomeIcon icon="edit" />;
-            }
-        };
-        const resetTimer = () => this.state.counter !== 0 ?
-            <TimerController>
-            <ResetTimer onClick={this.handleReset}/>
-            <StopTimer controller={this.state.timerController} onClick={(controller) => this.handleTimerController(controller)}/>
-            </TimerController>
-                : undefined;
-        const newPomodoroTimer = () => this.state.settingPanel ? <NewTimerPanel
-            onSubmit={this.handleSubmition}
-            handleNewTimer={this.handleNewTimer}
-        />: "";
-        const timeRemaining = format(this.state.counter, ['mm:ss']);
-        const timeBox = () => !this.state.settingPanel && !this.state.alarm ?
-            (<TimerBox>{timeRemaining}</TimerBox>): "";
+        const timer = this.state.alarm
+            ? (<Alarm image={cat} sound={audio}/>)
+            : (<div>
+                <TimerBox>{format(this.state.counter, ['mm:ss'])}</TimerBox>
+                {this.state.counter !== 0
+                    ? (<TimerController
+                    handleReset={this.handleReset}
+                    timerController={this.state.timerController}
+                    handleTimerController={this.handleTimerController}/>)
+                    : ""
+                }
+            </div>);
+
         return(
             <Container>
-                <Manager>
-                    <SettingPanel onClick={(e) => this.handleSettingPanel(e)}>{settingPanel()}</SettingPanel>
-                    {timerSelect}
-                    </Manager>
-                {catReward()}
-              {newPomodoroTimer()}
-               {timeBox()}
-               {resetTimer()}
-               {sound()}
+                <ManagerPanel
+                    pomodoroTimers={this.state.pomodoroTimers}
+                    settingPanel={this.state.settingPanel}
+                    handleTimerRemover={this.handleTimerRemover}
+                    setTimer={this.setTimer}
+                    handleSettingPanel={this.handleSettingPanel}
+                />
+                {this.state.settingPanel
+                    ? <NewTimerPanel
+                    onSubmit={this.handleSubmition}
+                    />
+                    : timer}
            </Container>
        );
     }
