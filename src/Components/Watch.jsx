@@ -1,6 +1,5 @@
 import React from 'react'
 import styled from 'styled-components';
-import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import format from 'date-fns/format';
@@ -11,7 +10,7 @@ import ResetTimer from "./ResetPomodoro";
 import StopTimer from "./Stop-Start";
 
 import pomodoros from "../pomodoroTimer";
-import audio from '../Sound/audio_hero_Cat_DIGIC08-69.mp3';
+import audio from '../Sound/audio_hero_Cat_DIGIC08-69.ogg';
 import cat from '../Image/kitten.png';
 import notificationCat from '../Image/cropped_cat_favicon_2_gyH_icon.ico';
 
@@ -171,7 +170,7 @@ class Watch extends React.Component {
         const catReward = () => this.state.alarm ? <CatReward src={cat} /> : "";
         const sound = () =>
             this.state.alarm
-                ? (<audio autoPlay><source src={audio} type="audio/mp3" /></audio>)
+                ? (<audio autoPlay><source src={audio} type="audio/ogg" /></audio>)
                 : undefined;
         const timerSelect = this.state.pomodoroTimers.map( item =>
             <div key={item.id}>
