@@ -39,7 +39,8 @@ class Watch extends React.Component {
             timerValue: 0,
             settingPanel: false,
             alarm: false,
-            timerController: false
+            timerController: false,
+            title: "Pomodoro"
         };
         this.setTimer = this.setTimer.bind(this);
         this.intervalID = null;
@@ -63,17 +64,18 @@ class Watch extends React.Component {
             settingPanel: !this.state.settingPanel,
             alarm: false
         });
+        document.title = "Pomodoro";
         localStorage.setItem("timers", JSON.stringify(this.state.pomodoroTimers));
     }
 
     handleReset() {
         clearInterval(this.intervalID);
         this.setState({ counter: 0 });
+        document.title = "Pomodoro";
     }
 
     handleTimerRemover(id) {
         this.setState({ pomodoroTimers: this.state.pomodoroTimers.filter(item => id !== item.id) });
-
     }
 
     setTimer(counter) {
@@ -84,13 +86,15 @@ class Watch extends React.Component {
         this.intervalID = setInterval(() =>  {
             let value = this.state.counter;
             value = value - 1000;
-            this.setState({counter: value});
+            this.setState({ counter: value });
+            document.title = format(this.state.counter, ['mm:ss']);
             if (value <= 0) {
+                document.title = "Pomodoro";
                 this.setState({ counter: 0, alarm: true });
                 clearInterval(this.intervalID);
                 new Notification("To już", { body: "I co teraz?", icon: notificationCat});
             }
-        }, 1000)
+        }, 1000);
     }
 
     componentDidMount() {
@@ -99,13 +103,9 @@ class Watch extends React.Component {
         if (timers) {
             this.setState({ pomodoroTimers: JSON.parse(timers) });
         }
-        this.watchID = setInterval(() => {
-            this.tick();
-        }, 1000);
     }
 
     componentWillUnmount() {
-        clearInterval(this.watchID);
         clearInterval(this.intervalID);
     }
 
@@ -114,7 +114,7 @@ class Watch extends React.Component {
     }
 
     handleSubmition = (timerPeriod) => {
-        const pomodoroTimers = [...this.state.pomodoroTimers, { timer:  timerPeriod, id: Math.random()}];
+        const pomodoroTimers = [...this.state.pomodoroTimers, { timer: timerPeriod, id: Math.random() }];
         this.setState({ pomodoroTimers });
         localStorage.setItem("timers", JSON.stringify(pomodoroTimers));
     };
