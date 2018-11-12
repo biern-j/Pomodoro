@@ -29,7 +29,7 @@ const Container = styled.div`
     place-content: space-around;
 `;
 
-class Watch extends React.Component {
+class Pomodoro extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -39,8 +39,7 @@ class Watch extends React.Component {
             timerValue: 0,
             editMode: false,
             alarm: false,
-            timerController: false,
-            title: "Pomodoro"
+            timerController: false
         };
         this.setTimer = this.setTimer.bind(this);
         this.intervalID = null;
@@ -48,6 +47,8 @@ class Watch extends React.Component {
         this.handleReset = this.handleReset.bind(this);
         this.toggleEditMode = this.toggleEditMode.bind(this);
         this.handleTimerController = this.handleTimerController.bind(this);
+        this.tick = this.tick.bind(this);
+        this.addNewTimer = this.addNewTimer.bind(this);
     }
 
     handleTimerController(controller) {
@@ -64,14 +65,13 @@ class Watch extends React.Component {
             editMode: !this.state.editMode,
             alarm: false
         });
-        document.title = "Pomodoro";
         localStorage.setItem("timers", JSON.stringify(this.state.pomodoroTimers));
     }
 
     handleReset() {
         clearInterval(this.intervalID);
         this.setState({ counter: 0 });
-        document.title = "Pomodoro";
+        resetDocumentitle();
     }
 
     handleTimerRemover(id) {
@@ -83,18 +83,7 @@ class Watch extends React.Component {
             clearInterval(this.intervalID);
         }
         this.setState({counter, alarm: false });
-        this.intervalID = setInterval(() =>  {
-            let value = this.state.counter;
-            value = value - 1000;
-            this.setState({ counter: value });
-            document.title = format(this.state.counter, ['mm:ss']);
-            if (value <= 0) {
-                document.title = "Pomodoro";
-                this.setState({ counter: 0, alarm: true });
-                clearInterval(this.intervalID);
-                new Notification("To już", { body: "I co teraz?", icon: notificationCat});
-            }
-        }, 1000);
+        this.intervalID = setInterval(this.tick, 1000);
     }
 
     componentDidMount() {
@@ -110,10 +99,18 @@ class Watch extends React.Component {
     }
 
     tick() {
-        this.setState({ time: new Date() });
+        const value = this.state.counter - 1000;
+        const alarm = value <= 0;
+        this.setState({ counter: alarm ? 0 : value, alarm });
+        document.title = format(this.state.counter, ['mm:ss']);
+        if (alarm) {
+            resetDocumentitle();
+            clearInterval(this.intervalID);
+            new Notification("To już", { body: "I co teraz?", icon: notificationCat});
+        }
     }
 
-    handleSubmition = (timerPeriod) => {
+    addNewTimer(timerPeriod) {
         const pomodoroTimers = [...this.state.pomodoroTimers, { timer: timerPeriod, id: Math.random() }];
         this.setState({ pomodoroTimers });
         localStorage.setItem("timers", JSON.stringify(pomodoroTimers));
@@ -144,7 +141,7 @@ class Watch extends React.Component {
                 />
                 {this.state.editMode
                     ? <NewTimerPanel
-                    onSubmit={this.handleSubmition}
+                    onSubmit={this.addNewTimer}
                     />
                     : timer}
            </Container>
@@ -152,5 +149,7 @@ class Watch extends React.Component {
     }
 }
 
-export default Watch;
+const resetDocumentitle = () => document.title = "Pomodoro";
+
+export default Pomodoro;
 
