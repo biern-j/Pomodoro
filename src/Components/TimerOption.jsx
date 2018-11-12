@@ -25,13 +25,13 @@ const Icon = styled(FontAwesomeIcon)`
     top: -0.4rem;
 `;
 
-const TimerOption = ({ id, timePeriod, onClick, onClickTimerRemover, settingPanel}) => {
+const TimerOption = ({ id, timePeriod, onClick, onClickTimerRemover, editMode}) => {
 
-    const remove = () => settingPanel ? <Icon onClick={() => onClickTimerRemover(id)} icon="times-circle"/> : "";
+    const remove = () => editMode ? <Icon onClick={() => onClickTimerRemover(id)} icon="times-circle"/> : "";
     const time = format(timePeriod, ['mm:ss']);
     return (
         <Container>
-            <TimerSelector onClick={(e) => settingPanel ? "" : onClick(e, timePeriod)}>
+            <TimerSelector onClick={(e) => editMode ? "" : onClick(e, timePeriod)}>
                 {time}
             </TimerSelector>
             {remove()}

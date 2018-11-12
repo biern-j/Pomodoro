@@ -29,13 +29,13 @@ const SettingPanel = styled(Button)`
 `;
 
 
-const ManagerPanel = ({pomodoroTimers, settingPanel, handleTimerRemover, setTimer, handleSettingPanel }) =>
+const ManagerPanel = ({pomodoroTimers, editMode, handleTimerRemover, setTimer, toggleEditMode }) =>
     <Manager>
-        <SettingPanel onClick={(e) => handleSettingPanel(e)}><FontAwesomeIcon icon={settingPanel ? "angle-left" : "edit"}/></SettingPanel>
+        <SettingPanel onClick={(e) => toggleEditMode(e)}><FontAwesomeIcon icon={editMode ? "angle-left" : "edit"}/></SettingPanel>
         {pomodoroTimers.map( item =>
             <div key={item.id}>
                 <TimerOption
-                    settingPanel={settingPanel}
+                    editMode={editMode}
                     onClickTimerRemover={handleTimerRemover}
                     timePeriod={item.timer * 60 * 1000}
                     id={item.id}

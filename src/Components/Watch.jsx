@@ -37,7 +37,7 @@ class Watch extends React.Component {
             counter: 0,
             pomodoroTimers: pomodoros,
             timerValue: 0,
-            settingPanel: false,
+            editMode: false,
             alarm: false,
             timerController: false,
             title: "Pomodoro"
@@ -46,7 +46,7 @@ class Watch extends React.Component {
         this.intervalID = null;
         this.handleTimerRemover = this.handleTimerRemover.bind(this);
         this.handleReset = this.handleReset.bind(this);
-        this.handleSettingPanel = this.handleSettingPanel.bind(this);
+        this.toggleEditMode = this.toggleEditMode.bind(this);
         this.handleTimerController = this.handleTimerController.bind(this);
     }
 
@@ -58,10 +58,10 @@ class Watch extends React.Component {
         }
     };
 
-    handleSettingPanel(e) {
+    toggleEditMode(e) {
         e.preventDefault();
         this.setState({
-            settingPanel: !this.state.settingPanel,
+            editMode: !this.state.editMode,
             alarm: false
         });
         document.title = "Pomodoro";
@@ -137,12 +137,12 @@ class Watch extends React.Component {
             <Container>
                 <ManagerPanel
                     pomodoroTimers={this.state.pomodoroTimers}
-                    settingPanel={this.state.settingPanel}
+                    editMode={this.state.editMode}
                     handleTimerRemover={this.handleTimerRemover}
                     setTimer={this.setTimer}
-                    handleSettingPanel={this.handleSettingPanel}
+                    toggleEditMode={this.toggleEditMode}
                 />
-                {this.state.settingPanel
+                {this.state.editMode
                     ? <NewTimerPanel
                     onSubmit={this.handleSubmition}
                     />
